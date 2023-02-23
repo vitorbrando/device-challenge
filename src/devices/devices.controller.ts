@@ -5,7 +5,8 @@ import { UpdateDeviceDto } from './dto/update-device.dto';
 
 @Controller('devices')
 export class DevicesController {
-  constructor(private readonly devicesService: DevicesService) {}
+  constructor(
+    private readonly devicesService: DevicesService) {}
 
   @Post()
   create(@Body() createDeviceDto: CreateDeviceDto) {
