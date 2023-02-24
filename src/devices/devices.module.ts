@@ -4,6 +4,7 @@ import { DevicesController } from './devices.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Device, DeviceSchema } from 'src/schemas/device.schema';
 import { Variable, VariableSchema } from 'src/schemas/variables.schema';
+import { WebsocketService } from 'src/websocket/websocket.service';
 
 @Module({
   imports: [
@@ -21,6 +22,6 @@ import { Variable, VariableSchema } from 'src/schemas/variables.schema';
     ]),
   ],  
   controllers: [DevicesController],
-  providers: [DevicesService]
+  providers: [DevicesService, WebsocketService]
 })
 export class DevicesModule {}

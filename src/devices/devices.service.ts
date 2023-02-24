@@ -4,6 +4,7 @@ import mongoose, { Model } from 'mongoose';
 import { DeviceDocument } from 'src/schemas/device.schema';
 import { VariableDocument } from 'src/schemas/variables.schema';
 import { Variable } from 'src/variables/entities/variable.entity';
+import { WebsocketService } from 'src/websocket/websocket.service';
 import { CreateDeviceDto } from './dto/create-device.dto';
 import { UpdateDeviceDto } from './dto/update-device.dto';
 import { Device } from './entities/device.entity';
@@ -12,13 +13,9 @@ import { Device } from './entities/device.entity';
 export class DevicesService {
   constructor(
     @InjectModel(Device.name) private readonly deviceModel: Model<DeviceDocument>,
-    @InjectModel(Variable.name) private readonly variableModel: Model<VariableDocument>
+    @InjectModel(Variable.name) private readonly variableModel: Model<VariableDocument>,
+    private readonly webSocket: WebsocketService
   ) {}
-
-  async findVariablesForDevice(deviceId: string): Promise<Variable[]> {
-    const query: any = { user: new mongoose.Types.ObjectId(deviceId) }
-    return await this.variableModel.find(query).exec();
-  }
 
   async create(createDeviceDto: CreateDeviceDto): Promise<DeviceDocument> {
     const device = new this.deviceModel(createDeviceDto);
@@ -37,6 +34,8 @@ export class DevicesService {
     id: string, 
     updateDeviceDto: UpdateDeviceDto
   ): Promise<DeviceDocument> {
+    const msg = `Device ${id} has updated`;
+    this.webSocket.updated_device(msg);
     return this.deviceModel.findByIdAndUpdate(id, updateDeviceDto);
   }
 
