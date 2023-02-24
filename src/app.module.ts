@@ -3,12 +3,10 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DevicesModule } from './devices/devices.module';
-import { VariablesModule } from './variables/variables.module';
-import { WebsocketService } from './websocket/websocket.service';
 
 @Module({
-  imports: [MongooseModule.forRoot(process.env.MONGODB_URL), DevicesModule, VariablesModule],
+  imports: [MongooseModule.forRoot(process.env.MONGODB_URL), DevicesModule],
   controllers: [AppController],
-  providers: [AppService, WebsocketService],
+  providers: [AppService],
 })
 export class AppModule {}

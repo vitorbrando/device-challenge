@@ -7,6 +7,7 @@ export class WebsocketService{
     private server: Server;
 
     send_message(message) {
+        console.log(message);
         this.server.sockets.emit("device", message);
     }
 }

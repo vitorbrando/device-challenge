@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import mongoose, { Model } from 'mongoose';
+import  { Model } from 'mongoose';
 import { DeviceDocument } from 'src/schemas/device.schema';
-import { VariableDocument } from 'src/schemas/variables.schema';
-import { Variable } from 'src/variables/entities/variable.entity';
+import { Variable, VariableDocument } from 'src/schemas/variables.schema';
 import { WebsocketService } from 'src/websocket/websocket.service';
 import { CreateDeviceDto } from './dto/create-device.dto';
+import { CreateVariableDto } from './dto/create-variable.dto';
 import { UpdateDeviceDto } from './dto/update-device.dto';
 import { Device } from './entities/device.entity';
 
@@ -41,5 +41,12 @@ export class DevicesService {
 
   async remove(id: string) {
     return this.deviceModel.findByIdAndRemove(id);
+  }
+
+  async create_information(createVariableDto: CreateVariableDto): Promise<VariableDocument> {
+    const msg = `Device ${createVariableDto.device} received information`;
+    this.webSocket.send_message(msg);
+    const variable = new this.variableModel(createVariableDto);
+    return variable.save();
   }
 }

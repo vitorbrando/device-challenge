@@ -1,6 +1,8 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 import { DevicesService } from './devices.service';
 import { CreateDeviceDto } from './dto/create-device.dto';
+import { CreateVariableDto } from './dto/create-variable.dto';
 import { UpdateDeviceDto } from './dto/update-device.dto';
 
 @Controller('devices')
@@ -31,5 +33,15 @@ export class DevicesController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.devicesService.remove(id);
+  }
+
+  @MessagePattern('device')
+  getNotifications(@Payload() data) {
+    return this.devicesService.create_information(data);
+  }  
+
+  @Post('information')
+  create_information(@Body() createVariableDto: CreateVariableDto) {
+    return this.devicesService.create_information(createVariableDto);
   }
 }
