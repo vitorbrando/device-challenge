@@ -15,7 +15,7 @@ export class VariablesService {
 
   async create(createVariableDto: CreateVariableDto): Promise<VariableDocument> {
     const msg = `Device ${createVariableDto.device} received information`;
-    this.webSocket.information_received(msg);
+    this.webSocket.send_message(msg);
     const variable = new this.variableModel(createVariableDto);
     return variable.save();
   }

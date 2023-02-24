@@ -6,11 +6,7 @@ export class WebsocketService{
     @WebSocketServer()
     private server: Server;
 
-    updated_device(message) {
-        this.server.sockets.emit("event-devices", message);
-    }
-
-    information_received(message) {
-        this.server.sockets.emit("event-devices", message);
+    send_message(message) {
+        this.server.sockets.emit("device", message);
     }
 }

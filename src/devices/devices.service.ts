@@ -35,7 +35,7 @@ export class DevicesService {
     updateDeviceDto: UpdateDeviceDto
   ): Promise<DeviceDocument> {
     const msg = `Device ${id} has updated`;
-    this.webSocket.updated_device(msg);
+    this.webSocket.send_message(msg);
     return this.deviceModel.findByIdAndUpdate(id, updateDeviceDto);
   }
 
