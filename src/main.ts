@@ -4,12 +4,15 @@ import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const mqtt_app = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {
-    transport: Transport.MQTT,
-    options: {
-      url: 'mqtt://mosquitto:1883',
+  const mqtt_app = await NestFactory.createMicroservice<MicroserviceOptions>(
+    AppModule,
+    {
+      transport: Transport.MQTT,
+      options: {
+        url: 'mqtt://mosquitto:1883',
+      },
     },
-  });
+  );
   mqtt_app.listen();
 
   const app = await NestFactory.create(AppModule);

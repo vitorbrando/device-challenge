@@ -20,8 +20,8 @@ import { WebsocketService } from 'src/websocket/websocket.service';
         schema: VariableSchema,
       },
     ]),
-  ],  
+  ],
   controllers: [DevicesController],
-  providers: [DevicesService, WebsocketService]
+  providers: [DevicesService, WebsocketService],
 })
 export class DevicesModule {}

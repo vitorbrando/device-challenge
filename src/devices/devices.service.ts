@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import  { Model } from 'mongoose';
+import { Model } from 'mongoose';
 import { DeviceDocument } from 'src/schemas/device.schema';
 import { Variable, VariableDocument } from 'src/schemas/variables.schema';
 import { WebsocketService } from 'src/websocket/websocket.service';
@@ -12,9 +12,11 @@ import { Device } from './entities/device.entity';
 @Injectable()
 export class DevicesService {
   constructor(
-    @InjectModel(Device.name) private readonly deviceModel: Model<DeviceDocument>,
-    @InjectModel(Variable.name) private readonly variableModel: Model<VariableDocument>,
-    private readonly webSocket: WebsocketService
+    @InjectModel(Device.name)
+    private readonly deviceModel: Model<DeviceDocument>,
+    @InjectModel(Variable.name)
+    private readonly variableModel: Model<VariableDocument>,
+    private readonly webSocket: WebsocketService,
   ) {}
 
   async create(createDeviceDto: CreateDeviceDto): Promise<DeviceDocument> {
@@ -31,8 +33,8 @@ export class DevicesService {
   }
 
   async update(
-    id: string, 
-    updateDeviceDto: UpdateDeviceDto
+    id: string,
+    updateDeviceDto: UpdateDeviceDto,
   ): Promise<DeviceDocument> {
     const msg = `Device ${id} has updated`;
     this.webSocket.send_message(msg);
@@ -43,7 +45,9 @@ export class DevicesService {
     return this.deviceModel.findByIdAndRemove(id);
   }
 
-  async create_information(createVariableDto: CreateVariableDto): Promise<VariableDocument> {
+  async create_information(
+    createVariableDto: CreateVariableDto,
+  ): Promise<VariableDocument> {
     const msg = `Device ${createVariableDto.device} received information`;
     this.webSocket.send_message(msg);
     const variable = new this.variableModel(createVariableDto);
